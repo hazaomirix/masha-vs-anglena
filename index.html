@@ -3,482 +3,785 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Битва Маши против Англены с кефами</title>
+  <title>Битва 2 старост — Маша vs Англелина | БК ВИВТ</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --gold: #ffd93d;
+      --gold-dark: #ffaa00;
+      --red: #ff3b5c;
+      --blue: #3bc9ff;
+      --bg: #0b0b14;
+      --card: #15151f;
+    }
     body {
-      font-family: 'Segoe UI', system-ui, sans-serif;
-      background: linear-gradient(135deg, #0a0a2e 0%, #1a0a3e 50%, #0a0a2e 100%);
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
       color: #fff;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-    .container { max-width: 900px; width: 100%; padding: 20px; text-align: center; }
-
-    header { padding: 40px 0 20px; }
-    header h1 {
-      font-size: 3rem;
-      font-weight: 900;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcbff);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      letter-spacing: 5px;
-    }
-    header .subtitle { font-size: 1.2rem; color: #aaa; margin-top: 10px; }
-
-    .sponsor-banner {
-      background: linear-gradient(90deg, #ffd700, #ffaa00);
-      color: #000;
-      padding: 12px 30px;
-      border-radius: 50px;
-      font-weight: 900;
-      font-size: 1.4rem;
-      text-transform: uppercase;
-      display: inline-block;
-      margin: 20px 0;
-      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
-      letter-spacing: 3px;
-    }
-    .sponsor-banner small { font-weight: 400; font-size: 0.8rem; display: block; color: #333; }
-
-    .arena {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      padding: 40px 0;
-      flex-wrap: wrap;
-      gap: 20px;
-    }
-    .fighter {
-      background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 30px;
-      min-width: 200px;
-      transition: transform 0.3s;
+      overflow-x: hidden;
       position: relative;
     }
-    .fighter:hover { transform: scale(1.05); }
-    .fighter .emoji { font-size: 5rem; display: block; margin-bottom: 15px; }
-    .fighter h2 { font-size: 1.8rem; margin-bottom: 5px; }
-    .fighter .desc { color: #aaa; font-size: 0.9rem; }
-    .fighter.masha { border-color: #ff6b6b; }
-    .fighter.angliena { border-color: #6bcbff; }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(600px circle at 15% 20%, rgba(255,59,92,0.12), transparent 60%),
+        radial-gradient(600px circle at 85% 25%, rgba(59,201,255,0.12), transparent 60%),
+        radial-gradient(800px circle at 50% 90%, rgba(255,217,61,0.07), transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
 
-    .koef {
-      position: absolute;
-      top: -15px;
-      right: -15px;
-      background: linear-gradient(90deg, #ffd700, #ffaa00);
-      color: #000;
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11,11,20,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(255,255,255,0.08);
+      padding: 10px 0;
+    }
+    .topbar-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 0 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
       font-weight: 900;
       font-size: 1.3rem;
-      padding: 8px 14px;
-      border-radius: 30px;
-      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
-      transform: rotate(5deg);
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, var(--gold), #fff, var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: shine 4s linear infinite;
+      background-size: 200% 100%;
     }
-    .koef small { font-weight: 400; font-size: 0.65rem; display: block; }
+    @keyframes shine {
+      0% { background-position: 0% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .topbar-nav { display: flex; gap: 20px; font-size: 0.85rem; color: #888; }
+    .topbar-nav span:hover { color: var(--gold); cursor: default; }
 
-    .vs {
-      font-size: 3rem;
+    .container { max-width: 1100px; margin: 0 auto; padding: 20px; position: relative; z-index: 1; }
+
+    .ticker {
+      overflow: hidden;
+      white-space: nowrap;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      color: #000;
+      font-weight: 800;
+      padding: 8px 0;
+      font-size: 0.95rem;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+    .ticker-inner {
+      display: inline-block;
+      padding-left: 100%;
+      animation: ticker 22s linear infinite;
+    }
+    @keyframes ticker {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-100%); }
+    }
+
+    .event-card {
+      text-align: center;
+      margin-bottom: 35px;
+      animation: fadeDown 0.8s ease both;
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .event-label {
+      display: inline-block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      color: var(--gold);
+      border: 1px solid rgba(255,217,61,0.3);
+      padding: 5px 16px;
+      border-radius: 30px;
+      text-transform: uppercase;
+      margin-bottom: 15px;
+    }
+    .event-card h1 {
+      font-size: clamp(2rem, 6vw, 4rem);
       font-weight: 900;
-      color: #ffd93d;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      line-height: 1.1;
+    }
+    .event-card h1 .m { color: var(--red); }
+    .event-card h1 .a { color: var(--blue); }
+    .event-card .sponsor-line { margin-top: 15px; font-size: 1rem; color: #888; }
+    .event-card .sponsor-line b {
+      color: var(--gold);
+      font-size: 1.3rem;
+      font-weight: 900;
+      letter-spacing: 2px;
       text-shadow: 0 0 20px rgba(255,217,61,0.5);
     }
 
-    .block { margin: 30px auto; max-width: 600px; }
-    .block h3 { font-size: 1.5rem; margin-bottom: 15px; color: #ffd93d; }
+    .event-info {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin: 30px 0;
+      animation: fadeUp 1s ease both;
+    }
+    .info-item {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 18px;
+      text-align: center;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+    .info-item:hover { transform: translateY(-4px); border-color: rgba(255,217,61,0.4); }
+    .info-item .ii-icon { font-size: 1.8rem; margin-bottom: 8px; }
+    .info-item .ii-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1.5px; }
+    .info-item .ii-value { font-size: 1.15rem; font-weight: 800; margin-top: 4px; }
 
-    .poll {
-      background: rgba(255,255,255,0.05);
-      border: 2px solid rgba(255,255,255,0.15);
+    .countdown {
+      max-width: 500px;
+      margin: 0 auto 50px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(255,217,61,0.06), rgba(255,170,0,0.03));
+      border: 1px solid rgba(255,217,61,0.2);
       border-radius: 20px;
       padding: 25px;
+      animation: fadeUp 1s ease both;
     }
-    .poll .poll-question { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; }
+    .countdown .cd-label {
+      font-size: 0.75rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 15px;
+    }
+    .cd-boxes { display: flex; justify-content: center; gap: 12px; }
+    .cd-box {
+      min-width: 70px;
+      background: #0d0d18;
+      border: 1px solid rgba(255,217,61,0.25);
+      border-radius: 12px;
+      padding: 12px 8px;
+    }
+    .cd-box .cd-num {
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .cd-box .cd-unit { font-size: 0.65rem; color: #888; text-transform: uppercase; margin-top: 4px; }
 
-    .poll-option {
+    .fighters {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 10px;
+      margin: 40px 0;
+    }
+    .fighter-card {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 20px;
+      padding: 30px 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      animation: slideIn 1s ease both;
+    }
+    .fighter-card.left { animation-name: slideLeft; }
+    .fighter-card.right { animation-name: slideRight; }
+    @keyframes slideLeft { from { opacity: 0; transform: translateX(-60px); } to { opacity: 1; transform: translateX(0); } }
+    @keyframes slideRight { from { opacity: 0; transform: translateX(60px); } to { opacity: 1; transform: translateX(0); } }
+    .fighter-card:hover {
+      transform: translateY(-6px) scale(1.02);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    }
+    .fighter-card.left:hover { border-color: var(--red); box-shadow: 0 20px 60px rgba(255,59,92,0.25); }
+    .fighter-card.right:hover { border-color: var(--blue); box-shadow: 0 20px 60px rgba(59,201,255,0.25); }
+
+    .fighter-card .card-bg { position: absolute; top: 0; left: 0; right: 0; height: 5px; }
+    .left .card-bg { background: linear-gradient(90deg, var(--red), transparent); }
+    .right .card-bg { background: linear-gradient(90deg, transparent, var(--blue)); }
+
+    .fighter-tag { font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: #666; margin-bottom: 5px; }
+    .fighter-name { font-size: clamp(1.6rem, 4vw, 2.4rem); font-weight: 900; text-transform: uppercase; letter-spacing: 2px; }
+    .left .fighter-name { color: var(--red); text-shadow: 0 0 30px rgba(255,59,92,0.4); }
+    .right .fighter-name { color: var(--blue); text-shadow: 0 0 30px rgba(59,201,255,0.4); }
+    .fighter-nick { font-size: 0.9rem; color: #aaa; font-style: italic; margin-top: 4px; }
+    .fighter-avatar {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      margin: 20px auto;
       display: flex;
       align-items: center;
-      gap: 15px;
-      background: rgba(255,255,255,0.06);
-      border: 2px solid rgba(255,255,255,0.12);
-      border-radius: 15px;
-      padding: 15px;
+      justify-content: center;
+      font-size: 4rem;
+      position: relative;
+      background: #1a1a28;
+    }
+    .left .fighter-avatar { border: 3px solid var(--red); box-shadow: 0 0 40px rgba(255,59,92,0.35); }
+    .right .fighter-avatar { border: 3px solid var(--blue); box-shadow: 0 0 40px rgba(59,201,255,0.35); }
+    .fighter-avatar::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px dashed rgba(255,255,255,0.15);
+      animation: spin 12s linear infinite;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .fighter-record { font-size: 0.8rem; color: #888; margin-bottom: 15px; }
+    .fighter-record b { color: #fff; }
+
+    .fighter-fav {
+      display: inline-block;
+      background: rgba(255,217,61,0.12);
+      border: 1px solid rgba(255,217,61,0.4);
+      color: var(--gold);
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      padding: 3px 12px;
+      border-radius: 20px;
       margin-bottom: 12px;
-      cursor: pointer;
-      transition: 0.2s;
-      text-align: left;
+      animation: pulseFav 2s ease-in-out infinite;
+    }
+    @keyframes pulseFav {
+      0%, 100% { box-shadow: 0 0 10px rgba(255,217,61,0.15); }
+      50% { box-shadow: 0 0 25px rgba(255,217,61,0.45); }
+    }
+
+    .koef-pill {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #000;
+      font-weight: 900;
+      font-size: 1.1rem;
+      padding: 6px 18px;
+      border-radius: 30px;
+      transform: rotate(-3deg);
+      box-shadow: 0 0 25px rgba(255,217,61,0.4);
+    }
+    .koef-pill small { font-weight: 500; font-size: 0.65rem; display: block; }
+
+    .vs-block { display: flex; flex-direction: column; align-items: center; gap: 5px; animation: pulseVs 2.5s ease-in-out infinite; }
+    @keyframes pulseVs {
+      0%, 100% { transform: scale(1); filter: drop-shadow(0 0 15px rgba(255,217,61,0.4)); }
+      50% { transform: scale(1.12); filter: drop-shadow(0 0 35px rgba(255,217,61,0.8)); }
+    }
+    .vs-block .vs-text {
+      font-size: clamp(2.5rem, 7vw, 4rem);
+      font-weight: 900;
+      background: linear-gradient(180deg, var(--gold), var(--gold-dark));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      line-height: 1;
+    }
+    .vs-block .vs-sub { font-size: 0.65rem; color: #666; letter-spacing: 2px; text-transform: uppercase; }
+
+    .market { text-align: center; margin: 50px 0; animation: fadeUp 1s ease both; }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    .market-title { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
+    .market-sub { font-size: 0.8rem; color: #888; margin-bottom: 25px; }
+    .bet-options {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .bet-option {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 20px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s ease, border-color 0.25s ease;
+    }
+    .bet-option::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      transition: left 0.5s;
+    }
+    .bet-option:hover::before { left: 100%; }
+    .bet-option:hover { transform: translateY(-4px); border-color: rgba(255,217,61,0.5); }
+    .bet-option .bet-name { font-weight: 800; text-transform: uppercase; font-size: 0.95rem; margin-bottom: 10px; }
+    .bet-option.masha .bet-name { color: var(--red); }
+    .bet-option.angliena .bet-name { color: var(--blue); }
+    .bet-option.draw .bet-name { color: #aaa; }
+    .bet-option .bet-koef {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--gold);
+      text-shadow: 0 0 20px rgba(255,217,61,0.4);
+    }
+    .bet-option .bet-chance { font-size: 0.75rem; color: #666; margin-top: 6px; }
+    .bet-option.fav {
+      border-color: rgba(255,217,61,0.5);
+      box-shadow: 0 0 25px rgba(255,217,61,0.12);
+    }
+
+    .stats-section { margin: 50px 0; animation: fadeUp 1s ease both; }
+    .section-title {
+      text-align: center;
+      font-size: 1.4rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 30px;
+    }
+    .section-title span { color: var(--gold); }
+    .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+    .stats-col {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .stats-col h3 { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 20px; }
+    .stats-col.masha h3 { color: var(--red); }
+    .stats-col.angliena h3 { color: var(--blue); }
+    .stat-row { margin-bottom: 15px; }
+    .stat-row .stat-label { display: flex; justify-content: space-between; font-size: 0.85rem; margin-bottom: 5px; }
+    .stat-row .stat-label .val { color: var(--gold); font-weight: 700; }
+    .stat-bar { height: 8px; background: rgba(255,255,255,0.06); border-radius: 8px; overflow: hidden; }
+    .stat-bar span {
+      display: block;
+      height: 100%;
+      border-radius: 8px;
+      width: 0;
+      transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .stats-col.masha .stat-bar span { background: linear-gradient(90deg, var(--red), #ff7a94); box-shadow: 0 0 12px rgba(255,59,92,0.5); }
+    .stats-col.angliena .stat-bar span { background: linear-gradient(90deg, var(--blue), #7ad9ff); box-shadow: 0 0 12px rgba(59,201,255,0.5); }
+
+    .analysis { margin: 50px 0; animation: fadeUp 1s ease both; }
+    .analysis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; }
+    .analysis-card {
+      background: var(--card);
+      border-radius: 20px;
+      padding: 25px;
+      border: 1px solid rgba(255,255,255,0.08);
       position: relative;
       overflow: hidden;
     }
-    .poll-option:hover { border-color: #ffd93d; transform: scale(1.02); }
-    .poll-option.voted-masha:hover { border-color: #ff6b6b; }
-    .poll-option.voted-angliena:hover { border-color: #6bcbff; }
-    .poll-option .poll-emoji { font-size: 2rem; flex-shrink: 0; }
-    .poll-option .poll-name { font-weight: 700; flex: 1; font-size: 1.1rem; }
-    .poll-option .poll-bar-bg { display: none; }
-    .poll-option.voted .poll-bar-bg {
-      display: block;
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      z-index: 0;
-      opacity: 0.35;
-      transition: width 0.6s ease;
+    .analysis-card.masha { border-top: 4px solid var(--red); }
+    .analysis-card.angliena { border-top: 4px solid var(--blue); }
+    .analysis-card .card-corner { position: absolute; right: -30px; top: -30px; font-size: 9rem; opacity: 0.05; pointer-events: none; }
+    .analysis-card .analysis-title {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 1.15rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 25px;
     }
-    .poll-option.voted-masha .poll-bar-bg { background: #ff6b6b; }
-    .poll-option.voted-angliena .poll-bar-bg { background: #6bcbff; }
-    .poll-option .poll-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 15px; width: 100%; }
-    .poll-option .poll-votes { font-weight: 700; color: #ffd93d; min-width: 60px; text-align: right; }
-    .poll-option .poll-pct { font-size: 0.8rem; color: #888; min-width: 45px; text-align: right; }
-
-    .poll-results-note {
-      margin-top: 12px;
-      font-size: 0.85rem;
-      color: #aaa;
+    .analysis-card.masha .analysis-title { color: var(--red); }
+    .analysis-card.angliena .analysis-title { color: var(--blue); }
+    .fight-style {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 13px 15px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 14px;
+      margin-bottom: 10px;
+      border: 1px solid rgba(255,255,255,0.05);
+      transition: all 0.25s ease;
     }
-    .poll .vote-status {
-      margin-top: 10px;
-      font-size: 0.9rem;
-      color: #ffd93d;
-      min-height: 20px;
-    }
-    .poll .reset-btn {
-      margin-top: 10px;
-      background: none;
-      border: 1px solid rgba(255,255,255,0.2);
-      color: #888;
-      padding: 6px 14px;
+    .fight-style:hover { transform: translateX(5px); background: rgba(255,255,255,0.06); }
+    .fight-style .fs-icon { font-size: 1.6rem; min-width: 36px; text-align: center; }
+    .fight-style .fs-label { font-size: 0.7rem; color: #888; text-transform: uppercase; letter-spacing: 1px; }
+    .fight-style .fs-value { font-size: 1rem; font-weight: 700; }
+    .fight-style .fs-tag {
+      margin-left: auto;
+      font-size: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      padding: 3px 10px;
       border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.85rem;
+      white-space: nowrap;
     }
-    .poll .reset-btn:hover { color: #fff; border-color: #fff; }
+    .fight-style .fs-tag.good { background: rgba(76,217,100,0.15); color: #4cd964; border: 1px solid rgba(76,217,100,0.3); }
+    .fight-style .fs-tag.bad { background: rgba(255,59,92,0.15); color: var(--red); border: 1px solid rgba(255,59,92,0.3); }
+    .fight-style .fs-tag.warn { background: rgba(255,149,0,0.15); color: #ff9500; border: 1px solid rgba(255,149,0,0.3); }
 
-    .koef-info {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin-top: 20px;
+    .verdict {
+      margin: 50px auto;
+      max-width: 600px;
+      text-align: center;
+      background: linear-gradient(135deg, rgba(59,201,255,0.08), rgba(255,217,61,0.04));
+      border: 1px solid rgba(59,201,255,0.25);
+      border-radius: 20px;
+      padding: 30px;
+      animation: fadeUp 1s ease both;
     }
-    .koef-card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 15px;
-      padding: 15px;
-    }
-    .koef-card .label { color: #888; font-size: 0.8rem; text-transform: uppercase; }
-    .koef-card .value { font-size: 2rem; font-weight: 900; color: #ffd93d; margin-top: 5px; }
+    .verdict h3 { font-size: 0.8rem; letter-spacing: 3px; color: var(--gold); text-transform: uppercase; margin-bottom: 10px; }
+    .verdict p { font-size: 1.3rem; font-weight: 700; }
+    .verdict p b { color: var(--blue); }
 
-    .keftable { margin: 30px auto; max-width: 600px; }
-    .keftable h3 { font-size: 1.5rem; margin-bottom: 15px; color: #ffd93d; }
-    .kef-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
-    .kef-item {
-      background: rgba(255,255,255,0.08);
-      border-radius: 12px;
-      padding: 10px 18px;
-      font-size: 1.1rem;
-      border: 1px solid rgba(255,255,255,0.15);
+    .sponsor-footer { margin: 50px 0 30px; text-align: center; }
+    .sponsor-footer .sf-badge {
+      display: inline-block;
+      background: linear-gradient(90deg, var(--gold), var(--gold-dark));
+      color: #000;
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: 4px;
+      padding: 12px 40px;
+      border-radius: 50px;
+      text-transform: uppercase;
+      box-shadow: 0 0 50px rgba(255,217,61,0.35);
+      animation: pulseSponsor 2s ease-in-out infinite;
     }
-    .kef-item .kef-emoji { margin-right: 6px; }
-
-    .stats {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 15px;
-      margin: 30px auto;
-      max-width: 500px;
+    @keyframes pulseSponsor {
+      0%, 100% { box-shadow: 0 0 30px rgba(255,217,61,0.3); }
+      50% { box-shadow: 0 0 60px rgba(255,217,61,0.6); }
     }
-    .stat {
-      background: rgba(255,255,255,0.05);
-      border-radius: 12px;
-      padding: 15px;
-    }
-    .stat .label { color: #888; font-size: 0.8rem; text-transform: uppercase; }
-    .stat .value { font-size: 1.5rem; font-weight: 700; margin-top: 5px; }
+    .sponsor-footer .sf-note { color: #666; font-size: 0.8rem; margin-top: 12px; }
 
     .footer {
-      margin-top: 40px;
-      padding: 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      color: #666;
-      font-size: 0.85rem;
-      width: 100%;
+      border-top: 1px solid rgba(255,255,255,0.06);
+      padding: 25px 0;
       text-align: center;
-    }
-    .footer a { color: #ffd93d; text-decoration: none; }
-
-    .analysis-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-    }
-    .analysis-card {
-      background: rgba(255,255,255,0.05);
-      border-radius: 20px;
-      padding: 25px;
-      text-align: left;
-      border: 2px solid rgba(255,255,255,0.1);
-    }
-    .analysis-card.strong { border-color: #ff6b6b; }
-    .analysis-card.weak { border-color: #6bcbff; }
-    .analysis-header {
-      font-size: 1.2rem;
-      font-weight: 700;
-      margin-bottom: 15px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
-    }
-    .analysis-card ul {
-      list-style: none;
-      padding: 0;
-    }
-    .analysis-card li {
-      padding: 8px 0;
-      font-size: 1rem;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
-    }
-    .analysis-card li:last-child { border-bottom: none; }
-    .analysis-card li::before {
-      display: inline-block;
-      margin-right: 10px;
-    }
-    .analysis-card.strong li::before { content: '✅'; }
-    .analysis-card.weak li::before { content: '❌'; }
-
-    @media (max-width: 600px) {
-      .analysis-grid { grid-template-columns: 1fr; }
+      color: #555;
+      font-size: 0.8rem;
     }
 
-    @media (max-width: 600px) {
-      header h1 { font-size: 2rem; }
-      .vs { font-size: 2rem; }
-      .fighter { min-width: 140px; padding: 20px; }
-      .fighter .emoji { font-size: 3.5rem; }
-      .koef { font-size: 1rem; }
+    @media (max-width: 800px) {
+      .fighters { grid-template-columns: 1fr; }
+      .vs-block { order: -1; }
+      .bet-options { grid-template-columns: 1fr; }
+      .stats-grid, .analysis-grid { grid-template-columns: 1fr; }
+      .event-info { grid-template-columns: 1fr 1fr; }
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <header>
-      <div class="sponsor-banner">
-        ⚡ СПОНСОР ВИВТ ⚡
-        <small>С нами битва становится эпичнее!</small>
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="logo">БК ВИВТ</div>
+      <div class="topbar-nav">
+        <span>Линия</span>
+        <span>Битвы</span>
+        <span>Аналитика</span>
       </div>
-      <h1>⚔️ Битва 2 старост ⚔️</h1>
-      <div class="subtitle">Маша против Англены с кефами 🐟</div>
-    </header>
-
-    <div class="arena">
-      <div class="fighter masha">
-        <div class="koef" id="koef-masha">1.00<small>коэф.</small></div>
-        <span class="emoji">👩</span>
-        <h2>Маша</h2>
-        <div class="desc">Владыка бана в телеграмме 📵</div>
-      </div>
-      <div class="vs">VS</div>
-      <div class="fighter angliena">
-        <div class="koef" id="koef-angliena">1.00<small>коэф.</small></div>
-        <span class="emoji">🇬🇧</span>
-        <h2>Англена</h2>
-        <div class="desc">Владыка домашки 📚</div>
-      </div>
-    </div>
-
-    <div class="block">
-      <h3>🗳️ Опрос: кто победит?</h3>
-      <div class="poll">
-        <div class="poll-question">Голосуй за победителя битвы!</div>
-        <div class="poll-option voted-masha" data-vote="masha" onclick="vote('masha')">
-          <div class="poll-bar-bg" id="bar-masha"></div>
-          <div class="poll-content">
-            <span class="poll-emoji">👩</span>
-            <span class="poll-name">Маша</span>
-            <span class="poll-votes" id="votes-masha">0</span>
-            <span class="poll-pct" id="pct-masha">0%</span>
-          </div>
-        </div>
-        <div class="poll-option voted-angliena" data-vote="angliena" onclick="vote('angliena')">
-          <div class="poll-bar-bg" id="bar-angliena"></div>
-          <div class="poll-content">
-            <span class="poll-emoji">🇬🇧</span>
-            <span class="poll-name">Англена</span>
-            <span class="poll-votes" id="votes-angliena">0</span>
-            <span class="poll-pct" id="pct-angliena">0%</span>
-          </div>
-        </div>
-        <div class="vote-status" id="vote-status"></div>
-        <button class="reset-btn" onclick="resetPoll()">🔄 Сбросить опрос</button>
-        <div class="poll-results-note">Голоса хранятся в твоём браузере (localStorage)</div>
-      </div>
-    </div>
-
-    <div class="block">
-      <h3>💰 Коэффициенты на победу</h3>
-      <div class="koef-info">
-        <div class="koef-card">
-          <div class="label">Ставка на Машу</div>
-          <div class="value" id="koef-card-masha">1.00</div>
-        </div>
-        <div class="koef-card">
-          <div class="label">Ставка на Англену</div>
-          <div class="value" id="koef-card-angliena">1.00</div>
-        </div>
-      </div>
-      <div class="poll-results-note">Коэффициенты считаются по голосам: чем меньше ставят — тем выше коэф. (как у букмекеров)</div>
-    </div>
-
-    <div class="keftable">
-      <h3>🐟 Кефы в деле</h3>
-      <div class="kef-list">
-        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф удачи</span>
-        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф силы</span>
-        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф скорости</span>
-        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф мудрости</span>
-        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф-броня</span>
-        <span class="kef-item"><span class="kef-emoji">🐟</span> Супер-кеф</span>
-        <span class="kef-item"><span class="kef-emoji">🔥</span> Кеф-фламберге</span>
-      </div>
-    </div>
-
-    <div class="stats">
-      <div class="stat">
-        <div class="label">Побед Маши</div>
-        <div class="value">∞</div>
-      </div>
-      <div class="stat">
-        <div class="label">Побед Англены</div>
-        <div class="value">∞</div>
-      </div>
-      <div class="stat">
-        <div class="label">Всего голосов</div>
-        <div class="value" id="stat-total">0</div>
-      </div>
-      <div class="stat">
-        <div class="label">Спонсорская поддержка</div>
-        <div class="value">💪 ВИВТ</div>
-      </div>
-    </div>
-
-    <div class="block analysis">
-      <h3>📊 Анализ битвы</h3>
-      <div class="analysis-grid">
-        <div class="analysis-card strong">
-          <div class="analysis-header">✅ Сильные стороны Маши</div>
-          <ul>
-            <li>Действующая староста — опыт управления</li>
-            <li>Владыка бана в телеграмме — контроль над чатом</li>
-            <li>Поддержка кефов — боевой запас</li>
-            <li>Спонсор ВИВТ — финансовая мощь</li>
-            <li>Решает вопросы на месте</li>
-          </ul>
-        </div>
-        <div class="analysis-card weak">
-          <div class="analysis-header">❌ Слабые стороны Англены</div>
-          <ul>
-            <li>Владыка домашки — все её ненавидят</li>
-            <li>Не действующая староста — утрата позиций</li>
-            <li>Нет поддержки кефов</li>
-            <li>Нет спонсора</li>
-            <li>Туманная стратегия</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer">
-      Сделано с ❤️ и кефами | СПОНСОР ВИВТ<br>
-      <a href="https://github.com">GitHub Pages</a>
     </div>
   </div>
 
+  <div class="ticker">
+    <div class="ticker-inner">
+      ⚡ СПОНСОР СЕЗОНА — ВИВТ ⚡ МАША ПРОТИВ АНГЛЕЛИНЫ — БИТВА 2 СТАРОСТ ⚡ 7 СЕНТЯБРЯ 2026 · 20:00 МСК ⚡ АУДИТОРИЯ 808 ⚡ СПОНСОР СЕЗОНА — ВИВТ ⚡ МАША ПРОТИВ АНГЛЕЛИНЫ — БИТВА 2 СТАРОСТ ⚡ 7 СЕНТЯБРЯ 2026 · 20:00 МСК ⚡ АУДИТОРИЯ 808 ⚡
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="event-card">
+      <div class="event-label">Главный бой сезона</div>
+      <h1><span class="m">Маша</span> vs <span class="a">Англелина</span></h1>
+      <div class="sponsor-line">Битва 2 старост · спонсор <b>ВИВТ</b></div>
+    </div>
+
+    <div class="event-info">
+      <div class="info-item">
+        <div class="ii-icon">📅</div>
+        <div class="ii-label">Дата</div>
+        <div class="ii-value">7 сентября 2026</div>
+      </div>
+      <div class="info-item">
+        <div class="ii-icon">🕘</div>
+        <div class="ii-label">Начало</div>
+        <div class="ii-value">20:00 МСК</div>
+      </div>
+      <div class="info-item">
+        <div class="ii-icon">🏟️</div>
+        <div class="ii-label">Арена</div>
+        <div class="ii-value">Арена ВИВТ</div>
+      </div>
+      <div class="info-item">
+        <div class="ii-icon">👥</div>
+        <div class="ii-label">Аудитория</div>
+        <div class="ii-value">808</div>
+      </div>
+    </div>
+
+    <div class="countdown">
+      <div class="cd-label">До начала боя</div>
+      <div class="cd-boxes">
+        <div class="cd-box"><div class="cd-num" id="cd-days">0</div><div class="cd-unit">дней</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-hours">0</div><div class="cd-unit">часов</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-mins">0</div><div class="cd-unit">минут</div></div>
+        <div class="cd-box"><div class="cd-num" id="cd-secs">0</div><div class="cd-unit">секунд</div></div>
+      </div>
+    </div>
+
+    <div class="fighters">
+      <div class="fighter-card left">
+        <div class="card-bg"></div>
+        <div class="fighter-tag">Красный угол</div>
+        <div class="fighter-name">Маша</div>
+        <div class="fighter-nick">«Владыка бана»</div>
+        <div class="fighter-avatar">👩</div>
+        <div class="fighter-record">Рекорд: <b>12-5</b> · Бывшая староста</div>
+        <div class="koef-pill">2.90<small>коэф. на победу</small></div>
+      </div>
+
+      <div class="vs-block">
+        <div class="vs-text">VS</div>
+        <div class="vs-sub">главный бой</div>
+      </div>
+
+      <div class="fighter-card right">
+        <div class="card-bg"></div>
+        <div class="fighter-tag">Синий угол</div>
+        <div class="fighter-name">Англелина</div>
+        <div class="fighter-nick">«Владыка домашки»</div>
+        <div class="fighter-avatar">🇬🇧</div>
+        <div class="fighter-fav">🏆 Фаворит</div>
+        <div class="fighter-record">Рекорд: <b>18-2</b> · Действующая староста</div>
+        <div class="koef-pill">1.52<small>коэф. на победу</small></div>
+      </div>
+    </div>
+
+    <div class="market">
+      <div class="market-title">📈 Линия на бой</div>
+      <div class="market-sub">Основной исход · коэффициенты установлены аналитиками БК ВИВТ</div>
+      <div class="bet-options">
+        <div class="bet-option masha">
+          <div class="bet-name">П1 · Маша</div>
+          <div class="bet-koef">2.90</div>
+          <div class="bet-chance">Вероятность ~33%</div>
+        </div>
+        <div class="bet-option draw">
+          <div class="bet-name">X · Ничья</div>
+          <div class="bet-koef">4.50</div>
+          <div class="bet-chance">Вероятность ~21%</div>
+        </div>
+        <div class="bet-option angliena fav">
+          <div class="bet-name">П2 · Англелина</div>
+          <div class="bet-koef">1.52</div>
+          <div class="bet-chance">Вероятность ~62%</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="stats-section">
+      <div class="section-title">📊 Сравнение <span>характеристик</span></div>
+      <div class="stats-grid">
+        <div class="stats-col masha">
+          <h3>👩 Маша</h3>
+          <div class="stat-row">
+            <div class="stat-label"><span>Сила удара</span><span class="val">97</span></div>
+            <div class="stat-bar"><span data-val="97"></span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label"><span>Скорость</span><span class="val">78</span></div>
+            <div class="stat-bar"><span data-val="78"></span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label"><span>Защита</span><span class="val">70</span></div>
+            <div class="stat-bar"><span data-val="70"></span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label"><span>Выносливость</span><span class="val">75</span></div>
+            <div class="stat-bar"><span data-val="75"></span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label"><span>Бан-контроль</span><span class="val">85</span></div>
+            <div class="stat-bar"><span data-val="85"></span></div>
+          </div>
+        </div>
+        <div class="stats-col angliena">
+          <h3>🇬🇧 Англелина</h3>
+          <div class="stat-row">
+            <div class="stat-label"><span>Сила удара</span><span class="val">88</span></div>
+            <div class="stat-bar"><span data-val="88"></span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label"><span>Скорость</span><span class="val">92</span></div>
+            <div class="stat-bar"><span data-val="92"></span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label"><span>Защита</span><span class="val">96</span></div>
+            <div class="stat-bar"><span data-val="96"></span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label"><span>Выносливость</span><span class="val">93</span></div>
+            <div class="stat-bar"><span data-val="93"></span></div>
+          </div>
+          <div class="stat-row">
+            <div class="stat-label"><span>Бан-контроль</span><span class="val">99</span></div>
+            <div class="stat-bar"><span data-val="99"></span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="analysis">
+      <div class="section-title">🥊 Технический <span>разбор</span></div>
+      <div class="analysis-grid">
+        <div class="analysis-card angliena">
+          <div class="card-corner">🇬🇧</div>
+          <div class="analysis-title">🏆 Англелина — сильные стороны</div>
+
+          <div class="fight-style">
+            <div class="fs-icon">🛡️</div>
+            <div>
+              <div class="fs-label">Защита</div>
+              <div class="fs-value">Контроль дистанции 96</div>
+            </div>
+            <span class="fs-tag good">Элита</span>
+          </div>
+          <div class="fight-style">
+            <div class="fs-icon">📵</div>
+            <div>
+              <div class="fs-label">Контроль площадки</div>
+              <div class="fs-value">Бан-контроль 99</div>
+            </div>
+            <span class="fs-tag good">Максимум</span>
+          </div>
+          <div class="fight-style">
+            <div class="fs-icon">🏃</div>
+            <div>
+              <div class="fs-label">Скорость</div>
+              <div class="fs-value">92 — быстрее соперницы</div>
+            </div>
+            <span class="fs-tag good">Преимущество</span>
+          </div>
+          <div class="fight-style">
+            <div class="fs-icon">🧠</div>
+            <div>
+              <div class="fs-label">Тактика</div>
+              <div class="fs-value">Читает действия соперницы</div>
+            </div>
+            <span class="fs-tag good">Умная</span>
+          </div>
+          <div class="fight-style">
+            <div class="fs-icon">👑</div>
+            <div>
+              <div class="fs-label">Статус</div>
+              <div class="fs-value">Действующая староста</div>
+            </div>
+            <span class="fs-tag good">Серия 18-2</span>
+          </div>
+        </div>
+
+        <div class="analysis-card masha">
+          <div class="card-corner">👩</div>
+          <div class="analysis-title">✅ Маша — сильные стороны</div>
+
+          <div class="fight-style">
+            <div class="fs-icon">🥊</div>
+            <div>
+              <div class="fs-label">Фирменный приём</div>
+              <div class="fs-value">Хук справа</div>
+            </div>
+            <span class="fs-tag good">Опасен</span>
+          </div>
+          <div class="fight-style">
+            <div class="fs-icon">💥</div>
+            <div>
+              <div class="fs-label">Сила удара</div>
+              <div class="fs-value">97 — мощнейший удар</div>
+            </div>
+            <span class="fs-tag good">Один удар решает</span>
+          </div>
+          <div class="fight-style">
+            <div class="fs-icon">📵</div>
+            <div>
+              <div class="fs-label">Контроль площадки</div>
+              <div class="fs-value">Бан-контроль 85</div>
+            </div>
+            <span class="fs-tag warn">Сильный</span>
+          </div>
+          <div class="fight-style">
+            <div class="fs-icon">⚔️</div>
+            <div>
+              <div class="fs-label">Стиль</div>
+              <div class="fs-value">Агрессивный нокаутёр</div>
+            </div>
+            <span class="fs-tag warn">Рискованно</span>
+          </div>
+          <div class="fight-style">
+            <div class="fs-icon">⚖️</div>
+            <div>
+              <div class="fs-label">Статус</div>
+              <div class="fs-value">Андердог в линии 2.90</div>
+            </div>
+            <span class="fs-tag bad">Не фаворит</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="verdict">
+      <h3>Прогноз аналитиков БК ВИВТ</h3>
+      <p>Фаворит — <b>Англелина</b> 🏆 (вероятность победы ~62%)</p>
+    </div>
+
+    <div class="sponsor-footer">
+      <div class="sf-badge">⚡ СПОНСОР ВИВТ ⚡</div>
+      <div class="sf-note">Спонсор сезона · С нами битва становится эпичнее</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    БК ВИВТ © 2026 · Битва 2 старост · Маша vs Англелина<br>
+    7 сентября 2026 · 20:00 МСК · Арена ВИВТ · Аудитория 808
+  </div>
+
   <script>
-    const KEY = 'masha-vs-anglena-votes';
-    let votes = { masha: 0, angliena: 0 };
+    const FIGHT_TIME = new Date('2026-09-07T20:00:00+03:00');
 
-    function loadVotes() {
-      try {
-        const saved = JSON.parse(localStorage.getItem(KEY));
-        if (saved && typeof saved.masha === 'number' && typeof saved.angliena === 'number') {
-          votes = saved;
-        }
-      } catch (e) {}
+    function updateCountdown() {
+      const now = new Date();
+      let diff = FIGHT_TIME - now;
+      if (diff < 0) diff = 0;
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-days').textContent = d;
+      document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+      document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+      document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
     }
 
-    function saveVotes() {
-      localStorage.setItem(KEY, JSON.stringify(votes));
-    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
 
-    function calcCoeffs() {
-      const total = votes.masha + votes.angliena;
-      if (total === 0) return { masha: 1.00, angliena: 1.00 };
-      const margin = 0.85;
-      const mashaShare = votes.masha / total;
-      const anglienaShare = votes.angliena / total;
-      const masha = total === votes.masha ? 1.05 : Math.max(1.05, (margin / mashaShare).toFixed(2));
-      const angliena = total === votes.angliena ? 1.05 : Math.max(1.05, (margin / anglienaShare).toFixed(2));
-      return { masha: Number(masha), angliena: Number(angliena) };
-    }
-
-    function fmt(n) { return n.toFixed(2); }
-
-    function render() {
-      const total = votes.masha + votes.angliena;
-      const pctM = total ? Math.round(votes.masha / total * 100) : 50;
-      const pctA = total ? Math.round(votes.angliena / total * 100) : 50;
-      const coeffs = calcCoeffs();
-
-      document.getElementById('votes-masha').textContent = votes.masha;
-      document.getElementById('votes-angliena').textContent = votes.angliena;
-      document.getElementById('pct-masha').textContent = pctM + '%';
-      document.getElementById('pct-angliena').textContent = pctA + '%';
-      document.getElementById('bar-masha').style.width = pctM + '%';
-      document.getElementById('bar-angliena').style.width = pctA + '%';
-      document.getElementById('stat-total').textContent = total;
-
-      const km = fmt(coeffs.masha);
-      const ka = fmt(coeffs.angliena);
-      document.getElementById('koef-masha').innerHTML = km + '<small>коэф.</small>';
-      document.getElementById('koef-angliena').innerHTML = ka + '<small>коэф.</small>';
-      document.getElementById('koef-card-masha').textContent = km;
-      document.getElementById('koef-card-angliena').textContent = ka;
-
-      const mOption = document.querySelector('.poll-option[data-vote="masha"]');
-      const aOption = document.querySelector('.poll-option[data-vote="angliena"]');
-      mOption.classList.add('voted');
-      aOption.classList.add('voted');
-
-      const status = document.getElementById('vote-status');
-      if (total === 0) {
-        status.textContent = 'Пока никто не проголосовал — будь первым! 🗳️';
-      } else {
-        const leader = votes.masha > votes.angliena ? 'Маша 👩' : votes.angliena > votes.masha ? 'Англена 🇬🇧' : 'Ничья 🤝';
-        status.textContent = 'Лидирует: ' + leader;
-      }
-    }
-
-    function vote(who) {
-      votes[who]++;
-      saveVotes();
-      render();
-    }
-
-    function resetPoll() {
-      if (confirm('Сбросить все голоса?')) {
-        votes = { masha: 0, angliena: 0 };
-        saveVotes();
-        render();
-      }
-    }
-
-    loadVotes();
-    render();
+    setTimeout(() => {
+      document.querySelectorAll('.stat-bar span').forEach(el => {
+        el.style.width = el.dataset.val + '%';
+      });
+    }, 300);
   </script>
 </body>
 </html>
