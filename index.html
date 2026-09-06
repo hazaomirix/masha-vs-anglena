@@ -261,13 +261,7 @@
       padding: 3px 12px;
       border-radius: 20px;
       margin-bottom: 12px;
-      animation: pulseFav 2s ease-in-out infinite;
     }
-    @keyframes pulseFav {
-      0%, 100% { box-shadow: 0 0 10px rgba(255,217,61,0.15); }
-      50% { box-shadow: 0 0 25px rgba(255,217,61,0.45); }
-    }
-
     .koef-pill {
       display: inline-block;
       background: linear-gradient(135deg, var(--gold), var(--gold-dark));
@@ -296,8 +290,194 @@
     }
     .vs-block .vs-sub { font-size: 0.65rem; color: #666; letter-spacing: 2px; text-transform: uppercase; }
 
-    .market { text-align: center; margin: 50px 0; animation: fadeUp 1s ease both; }
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+    /* ════════════ ЯРКАЯ КНОПКА СТАВКИ ════════════ */
+    .bet-btn-wrap { text-align: center; margin: 50px 0; animation: fadeUp 1s ease both; }
+    .bet-btn {
+      position: relative;
+      display: inline-flex;
+      align-items: center;
+      gap: 14px;
+      background: linear-gradient(135deg, #ff3b5c, #ff9500, #ffd93d);
+      background-size: 300% 300%;
+      animation: gradientMove 3s ease infinite;
+      color: #000;
+      font-weight: 900;
+      font-size: 1.8rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      padding: 20px 60px;
+      border: none;
+      border-radius: 60px;
+      cursor: pointer;
+      box-shadow: 0 0 50px rgba(255,59,92,0.5), 0 0 100px rgba(255,217,61,0.3);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .bet-btn:hover { transform: scale(1.06); box-shadow: 0 0 80px rgba(255,59,92,0.7), 0 0 140px rgba(255,217,61,0.5); }
+    .bet-btn:active { transform: scale(0.97); }
+    @keyframes gradientMove {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .bet-btn .btn-icon { font-size: 2.2rem; }
+
+    /* ════════════ МОДАЛКА СТАВКИ ════════════ */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      z-index: 1000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      animation: fadeIn 0.3s ease;
+    }
+    .modal-overlay.open { display: flex; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+    .modal {
+      background: linear-gradient(145deg, #1a1a2e, #0f0f1c);
+      border: 2px solid rgba(255,217,61,0.3);
+      border-radius: 30px;
+      padding: 40px;
+      max-width: 500px;
+      width: 90%;
+      position: relative;
+      box-shadow: 0 0 80px rgba(255,217,61,0.15);
+      animation: modalPop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    }
+    @keyframes modalPop {
+      from { opacity: 0; transform: scale(0.8) translateY(30px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-close {
+      position: absolute;
+      top: 16px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: #888;
+      font-size: 2rem;
+      cursor: pointer;
+      transition: color 0.2s;
+      line-height: 1;
+    }
+    .modal-close:hover { color: #fff; }
+
+    .modal-title {
+      text-align: center;
+      font-size: 1.6rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      margin-bottom: 8px;
+    }
+    .modal-title span { background: linear-gradient(90deg, var(--gold), #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .modal-sub {
+      text-align: center;
+      color: #888;
+      font-size: 0.85rem;
+      margin-bottom: 30px;
+    }
+    .modal .field { margin-bottom: 22px; }
+    .modal .field label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #888;
+      margin-bottom: 8px;
+    }
+    .modal .field input {
+      width: 100%;
+      padding: 14px 18px;
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 14px;
+      color: #fff;
+      font-size: 1.1rem;
+      font-weight: 600;
+      outline: none;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+    .modal .field input:focus { border-color: var(--gold); box-shadow: 0 0 25px rgba(255,217,61,0.15); }
+    .modal .field input::placeholder { color: #555; }
+
+    .choose-fighter {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .choose-fighter button {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      padding: 20px;
+      background: rgba(255,255,255,0.03);
+      border: 2px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 700;
+      font-size: 1.1rem;
+      transition: all 0.25s ease;
+    }
+    .choose-fighter button:hover { transform: translateY(-3px); }
+    .choose-fighter button .cf-emoji { font-size: 2.5rem; }
+    .choose-fighter button.masha { border-color: rgba(255,59,92,0.3); }
+    .choose-fighter button.masha:hover, .choose-fighter button.masha.active { border-color: var(--red); background: rgba(255,59,92,0.12); box-shadow: 0 0 30px rgba(255,59,92,0.2); }
+    .choose-fighter button.angliena { border-color: rgba(59,201,255,0.3); }
+    .choose-fighter button.angliena:hover, .choose-fighter button.angliena.active { border-color: var(--blue); background: rgba(59,201,255,0.12); box-shadow: 0 0 30px rgba(59,201,255,0.2); }
+    .choose-fighter button .cf-koef { font-size: 0.8rem; color: var(--gold); font-weight: 800; }
+
+    .modal .money-input-wrap { position: relative; }
+    .modal .money-input-wrap input { padding-right: 60px; }
+    .modal .money-input-wrap .currency {
+      position: absolute;
+      right: 18px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gold);
+      font-weight: 900;
+      font-size: 1.2rem;
+      pointer-events: none;
+    }
+
+    .modal .submit-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+      color: #000;
+      font-weight: 900;
+      font-size: 1.2rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 16px;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
+      margin-top: 10px;
+      box-shadow: 0 0 30px rgba(255,217,61,0.3);
+    }
+    .modal .submit-btn:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(255,217,61,0.5); }
+    .modal .submit-btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+    .modal .submit-btn .btn-status { display: block; font-size: 0.7rem; font-weight: 400; margin-top: 4px; }
+
+    .modal .success-msg {
+      text-align: center;
+      padding: 20px;
+      background: rgba(76,217,100,0.1);
+      border: 1px solid rgba(76,217,100,0.3);
+      border-radius: 16px;
+      margin-top: 10px;
+    }
+    .modal .success-msg .sm-icon { font-size: 3rem; margin-bottom: 10px; }
+    .modal .success-msg .sm-text { font-weight: 700; font-size: 1.1rem; color: #4cd964; }
+
+    .market { text-align: center; margin: 30px 0; animation: fadeUp 1s ease both; }
     .market-title { font-size: 1.1rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 5px; }
     .market-sub { font-size: 0.8rem; color: #888; margin-bottom: 25px; }
     .bet-options {
@@ -340,10 +520,7 @@
       text-shadow: 0 0 20px rgba(255,217,61,0.4);
     }
     .bet-option .bet-chance { font-size: 0.75rem; color: #666; margin-top: 6px; }
-    .bet-option.fav {
-      border-color: rgba(255,217,61,0.5);
-      box-shadow: 0 0 25px rgba(255,217,61,0.12);
-    }
+    .bet-option.fav { border-color: rgba(255,217,61,0.5); box-shadow: 0 0 25px rgba(255,217,61,0.12); }
 
     .stats-section { margin: 50px 0; animation: fadeUp 1s ease both; }
     .section-title {
@@ -481,6 +658,8 @@
       .bet-options { grid-template-columns: 1fr; }
       .stats-grid, .analysis-grid { grid-template-columns: 1fr; }
       .event-info { grid-template-columns: 1fr 1fr; }
+      .modal { padding: 25px; }
+      .bet-btn { font-size: 1.2rem; padding: 16px 30px; }
     }
   </style>
 </head>
@@ -498,7 +677,7 @@
 
   <div class="ticker">
     <div class="ticker-inner">
-      ⚡ СПОНСОР СЕЗОНА — ВИВТ ⚡ МАША ПРОТИВ АНГЛЕЛИНЫ — БИТВА 2 СТАРОСТ ⚡ 7 СЕНТЯБРЯ 2026 · 20:00 МСК ⚡ АУДИТОРИЯ 808 ⚡ СПОНСОР СЕЗОНА — ВИВТ ⚡ МАША ПРОТИВ АНГЛЕЛИНЫ — БИТВА 2 СТАРОСТ ⚡ 7 СЕНТЯБРЯ 2026 · 20:00 МСК ⚡ АУДИТОРИЯ 808 ⚡
+      ⚡ СПОНСОР СЕЗОНА — ВИВТ ⚡ МАША ПРОТИВ АНГЛЕЛИНЫ — БИТВА 2 СТАРОСТ ⚡ 7 СЕНТЯБРЯ 2026 · 20:00 МСК ⚡ АУДИТОРИЯ 808 ⚡ ПРИНИМАЕМ СТАВКИ ⚡ СПОНСОР СЕЗОНА — ВИВТ ⚡ МАША ПРОТИВ АНГЛЕЛИНЫ — БИТВА 2 СТАРОСТ ⚡ 7 СЕНТЯБРЯ 2026 · 20:00 МСК ⚡ АУДИТОРИЯ 808 ⚡ ПРИНИМАЕМ СТАВКИ ⚡
     </div>
   </div>
 
@@ -592,6 +771,15 @@
       </div>
     </div>
 
+    <!-- ════════ ЯРКАЯ КНОПКА СТАВКИ ════════ -->
+    <div class="bet-btn-wrap">
+      <button class="bet-btn" onclick="openModal()">
+        <span class="btn-icon">🔥</span>
+        Сделать ставку
+        <span class="btn-icon">🔥</span>
+      </button>
+    </div>
+
     <div class="stats-section">
       <div class="section-title">📊 Сравнение <span>характеристик</span></div>
       <div class="stats-grid">
@@ -650,7 +838,6 @@
         <div class="analysis-card angliena">
           <div class="card-corner">🇬🇧</div>
           <div class="analysis-title">🏆 Англелина — сильные стороны</div>
-
           <div class="fight-style">
             <div class="fs-icon">🛡️</div>
             <div>
@@ -692,11 +879,9 @@
             <span class="fs-tag good">Серия 18-2</span>
           </div>
         </div>
-
         <div class="analysis-card masha">
           <div class="card-corner">👩</div>
           <div class="analysis-title">✅ Маша — сильные стороны</div>
-
           <div class="fight-style">
             <div class="fs-icon">🥊</div>
             <div>
@@ -757,23 +942,182 @@
     7 сентября 2026 · 20:00 МСК · Арена ВИВТ · Аудитория 808
   </div>
 
-  <script>
-    const FIGHT_TIME = new Date('2026-09-07T20:00:00+03:00');
+  <!-- ════════════ МОДАЛЬНОЕ ОКНО СТАВКИ ════════════ -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+      <div class="modal-title">🔥 <span>Сделать ставку</span></div>
+      <div class="modal-sub">Битва 2 старост · Маша vs Англелина</div>
 
+      <div id="modal-body">
+        <div class="field">
+          <label>👤 Твой никнейм</label>
+          <input type="text" id="bet-nick" placeholder="Введи свой ник..." maxlength="30" autocomplete="off">
+        </div>
+
+        <div class="field">
+          <label>🥊 Выбери, на кого ставишь</label>
+          <div class="choose-fighter">
+            <button class="masha" data-fighter="masha" onclick="selectFighter('masha')">
+              <span class="cf-emoji">👩</span>
+              Маша
+              <span class="cf-koef">2.90</span>
+            </button>
+            <button class="angliena" data-fighter="angliena" onclick="selectFighter('angliena')">
+              <span class="cf-emoji">🇬🇧</span>
+              Англелина
+              <span class="cf-koef">1.52</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="field">
+          <label>💰 Сумма ставки</label>
+          <div class="money-input-wrap">
+            <input type="number" id="bet-amount" placeholder="Введи сумму..." min="1" step="1">
+            <span class="currency">₽</span>
+          </div>
+        </div>
+
+        <button class="submit-btn" id="submit-btn" onclick="submitBet()">
+          🔥 Подтвердить ставку
+          <span class="btn-status"></span>
+        </button>
+        <div id="success-box" style="display:none"></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ════════════ НАСТРОЙКИ TELEGRAM ════════════
+    // 1. Создай бота в @BotFather → получишь TOKEN
+    // 2. Добавь бота в чат, напиши что-нибудь
+    // 3. Открой https://api.telegram.org/bot<TOKEN>/getUpdates
+    // 4. Найди chat.id — вставь ниже
+    // Если не хочешь Telegram — оставь пустым, ставки будут просто сохраняться в браузере
+    const TG_BOT_TOKEN = '8505008097:AAHAL6hRBw15taSerao_zirvQ6wPXfBLmNs';
+    const TG_CHAT_ID  = '-5063334093';   // чат "ываыва"
+
+    let selectedFighter = null;
+    let betHistory = [];
+
+    function loadHistory() {
+      try {
+        const saved = JSON.parse(localStorage.getItem('bk-vivt-bets'));
+        if (Array.isArray(saved)) betHistory = saved;
+      } catch(e) {}
+    }
+    function saveHistory() { localStorage.setItem('bk-vivt-bets', JSON.stringify(betHistory)); }
+
+    function openModal() {
+      document.getElementById('modal').classList.add('open');
+      document.getElementById('modal-body').querySelector('#success-box').style.display = 'none';
+      document.getElementById('modal-body').querySelector('#success-box').innerHTML = '';
+      document.getElementById('submit-btn').disabled = false;
+      document.getElementById('submit-btn').innerHTML = '🔥 Подтвердить ставку<span class="btn-status"></span>';
+      selectedFighter = null;
+      document.querySelectorAll('.choose-fighter button').forEach(b => b.classList.remove('active'));
+      document.getElementById('bet-nick').value = '';
+      document.getElementById('bet-amount').value = '';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('open');
+    }
+
+    function selectFighter(fighter) {
+      selectedFighter = fighter;
+      document.querySelectorAll('.choose-fighter button').forEach(b => b.classList.remove('active'));
+      document.querySelector(`.choose-fighter button[data-fighter="${fighter}"]`).classList.add('active');
+    }
+
+    function sendToTelegram(message) {
+      if (!TG_BOT_TOKEN || !TG_CHAT_ID) return;
+      const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
+      fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          chat_id: TG_CHAT_ID,
+          text: message,
+          parse_mode: 'HTML'
+        })
+      }).catch(e => console.log('TG error:', e));
+    }
+
+    function submitBet() {
+      const nick = document.getElementById('bet-nick').value.trim();
+      const amount = parseInt(document.getElementById('bet-amount').value);
+
+      if (!nick) { alert('Введи свой никнейм!'); return; }
+      if (!selectedFighter) { alert('Выбери, на кого ставишь!'); return; }
+      if (!amount || amount < 1) { alert('Введи сумму ставки!'); return; }
+
+      const koef = selectedFighter === 'masha' ? 2.90 : 1.52;
+      const name = selectedFighter === 'masha' ? '👩 Маша' : '🇬🇧 Англелина';
+
+      const bet = {
+        nick,
+        fighter: selectedFighter,
+        amount,
+        koef,
+        timestamp: new Date().toISOString()
+      };
+
+      betHistory.push(bet);
+      saveHistory();
+
+      const dt = new Date().toLocaleString('ru-RU');
+
+      // Показываем успех
+      const box = document.getElementById('success-box');
+      box.style.display = 'block';
+      box.innerHTML = `
+        <div class="success-msg">
+          <div class="sm-icon">✅</div>
+          <div class="sm-text">Ставка принята!</div>
+          <div style="margin-top:10px;color:#aaa;font-size:0.9rem;">
+            ${nick} · ${name} · ${amount.toLocaleString()} ₽ × ${koef}
+          </div>
+        </div>
+      `;
+      document.getElementById('submit-btn').disabled = true;
+      document.getElementById('submit-btn').innerHTML = '✅ Ставка принята<span class="btn-status"></span>';
+
+      // Отправляем в Telegram
+      const tgMsg = `
+🔥 <b>НОВАЯ СТАВКА!</b> 🔥
+
+👤 <b>${nick}</b>
+🥊 Ставит на: ${name} (${koef})
+💰 Сумма: ${amount.toLocaleString()} ₽
+📊 Потенциал: ${(amount * koef).toLocaleString()} ₽
+🕐 ${dt}
+      `.trim();
+
+      sendToTelegram(tgMsg);
+
+      setTimeout(() => closeModal(), 2500);
+    }
+
+    // Закрыть по клику на оверлей
+    document.getElementById('modal').addEventListener('click', function(e) {
+      if (e.target === this) closeModal();
+    });
+
+    loadHistory();
+
+    // ════════ ТАЙМЕР ════════
+    const FIGHT_TIME = new Date('2026-09-07T20:00:00+03:00');
     function updateCountdown() {
       const now = new Date();
       let diff = FIGHT_TIME - now;
       if (diff < 0) diff = 0;
-      const d = Math.floor(diff / 86400000);
-      const h = Math.floor((diff % 86400000) / 3600000);
-      const m = Math.floor((diff % 3600000) / 60000);
-      const s = Math.floor((diff % 60000) / 1000);
-      document.getElementById('cd-days').textContent = d;
-      document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
-      document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
-      document.getElementById('cd-secs').textContent = String(s).padStart(2, '0');
+      document.getElementById('cd-days').textContent = Math.floor(diff / 86400000);
+      document.getElementById('cd-hours').textContent = String(Math.floor((diff % 86400000) / 3600000)).padStart(2,'0');
+      document.getElementById('cd-mins').textContent = String(Math.floor((diff % 3600000) / 60000)).padStart(2,'0');
+      document.getElementById('cd-secs').textContent = String(Math.floor((diff % 60000) / 1000)).padStart(2,'0');
     }
-
     updateCountdown();
     setInterval(updateCountdown, 1000);
 
