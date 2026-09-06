@@ -17,10 +17,7 @@
     }
     .container { max-width: 900px; width: 100%; padding: 20px; text-align: center; }
 
-    header {
-      padding: 40px 0 20px;
-      position: relative;
-    }
+    header { padding: 40px 0 20px; }
     header h1 {
       font-size: 3rem;
       font-weight: 900;
@@ -28,14 +25,9 @@
       background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcbff);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      text-shadow: none;
       letter-spacing: 5px;
     }
-    header .subtitle {
-      font-size: 1.2rem;
-      color: #aaa;
-      margin-top: 10px;
-    }
+    header .subtitle { font-size: 1.2rem; color: #aaa; margin-top: 10px; }
 
     .sponsor-banner {
       background: linear-gradient(90deg, #ffd700, #ffaa00);
@@ -67,6 +59,7 @@
       padding: 30px;
       min-width: 200px;
       transition: transform 0.3s;
+      position: relative;
     }
     .fighter:hover { transform: scale(1.05); }
     .fighter .emoji { font-size: 5rem; display: block; margin-bottom: 15px; }
@@ -75,6 +68,21 @@
     .fighter.masha { border-color: #ff6b6b; }
     .fighter.angliena { border-color: #6bcbff; }
 
+    .koef {
+      position: absolute;
+      top: -15px;
+      right: -15px;
+      background: linear-gradient(90deg, #ffd700, #ffaa00);
+      color: #000;
+      font-weight: 900;
+      font-size: 1.3rem;
+      padding: 8px 14px;
+      border-radius: 30px;
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+      transform: rotate(5deg);
+    }
+    .koef small { font-weight: 400; font-size: 0.65rem; display: block; }
+
     .vs {
       font-size: 3rem;
       font-weight: 900;
@@ -82,21 +90,94 @@
       text-shadow: 0 0 20px rgba(255,217,61,0.5);
     }
 
-    .keftable {
-      margin: 30px auto;
-      max-width: 600px;
+    .block { margin: 30px auto; max-width: 600px; }
+    .block h3 { font-size: 1.5rem; margin-bottom: 15px; color: #ffd93d; }
+
+    .poll {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.15);
+      border-radius: 20px;
+      padding: 25px;
     }
-    .keftable h3 {
-      font-size: 1.5rem;
-      margin-bottom: 15px;
-      color: #ffd93d;
-    }
-    .kef-list {
+    .poll .poll-question { font-size: 1.2rem; font-weight: 700; margin-bottom: 20px; }
+
+    .poll-option {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      justify-content: center;
+      align-items: center;
+      gap: 15px;
+      background: rgba(255,255,255,0.06);
+      border: 2px solid rgba(255,255,255,0.12);
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 12px;
+      cursor: pointer;
+      transition: 0.2s;
+      text-align: left;
+      position: relative;
+      overflow: hidden;
     }
+    .poll-option:hover { border-color: #ffd93d; transform: scale(1.02); }
+    .poll-option.voted-masha:hover { border-color: #ff6b6b; }
+    .poll-option.voted-angliena:hover { border-color: #6bcbff; }
+    .poll-option .poll-emoji { font-size: 2rem; flex-shrink: 0; }
+    .poll-option .poll-name { font-weight: 700; flex: 1; font-size: 1.1rem; }
+    .poll-option .poll-bar-bg { display: none; }
+    .poll-option.voted .poll-bar-bg {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      z-index: 0;
+      opacity: 0.35;
+      transition: width 0.6s ease;
+    }
+    .poll-option.voted-masha .poll-bar-bg { background: #ff6b6b; }
+    .poll-option.voted-angliena .poll-bar-bg { background: #6bcbff; }
+    .poll-option .poll-content { position: relative; z-index: 1; display: flex; align-items: center; gap: 15px; width: 100%; }
+    .poll-option .poll-votes { font-weight: 700; color: #ffd93d; min-width: 60px; text-align: right; }
+    .poll-option .poll-pct { font-size: 0.8rem; color: #888; min-width: 45px; text-align: right; }
+
+    .poll-results-note {
+      margin-top: 12px;
+      font-size: 0.85rem;
+      color: #aaa;
+    }
+    .poll .vote-status {
+      margin-top: 10px;
+      font-size: 0.9rem;
+      color: #ffd93d;
+      min-height: 20px;
+    }
+    .poll .reset-btn {
+      margin-top: 10px;
+      background: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #888;
+      padding: 6px 14px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-size: 0.85rem;
+    }
+    .poll .reset-btn:hover { color: #fff; border-color: #fff; }
+
+    .koef-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .koef-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 15px;
+      padding: 15px;
+    }
+    .koef-card .label { color: #888; font-size: 0.8rem; text-transform: uppercase; }
+    .koef-card .value { font-size: 2rem; font-weight: 900; color: #ffd93d; margin-top: 5px; }
+
+    .keftable { margin: 30px auto; max-width: 600px; }
+    .keftable h3 { font-size: 1.5rem; margin-bottom: 15px; color: #ffd93d; }
+    .kef-list { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
     .kef-item {
       background: rgba(255,255,255,0.08);
       border-radius: 12px;
@@ -137,6 +218,7 @@
       .vs { font-size: 2rem; }
       .fighter { min-width: 140px; padding: 20px; }
       .fighter .emoji { font-size: 3.5rem; }
+      .koef { font-size: 1rem; }
     }
   </style>
 </head>
@@ -147,22 +229,67 @@
         ⚡ СПОНСОР ВИВТ ⚡
         <small>С нами битва становится эпичнее!</small>
       </div>
-      <h1>⚔️ Маша vs Англена ⚔️</h1>
-      <div class="subtitle">Битва веков с кефами 🐟</div>
+      <h1>⚔️ Битва 2 старост ⚔️</h1>
+      <div class="subtitle">Маша против Англены с кефами 🐟</div>
     </header>
 
     <div class="arena">
       <div class="fighter masha">
+        <div class="koef" id="koef-masha">1.00<small>коэф.</small></div>
         <span class="emoji">👩</span>
         <h2>Маша</h2>
-        <div class="desc">Королева кефов</div>
+        <div class="desc">Владыка бана в телеграмме 📵</div>
       </div>
       <div class="vs">VS</div>
       <div class="fighter angliena">
+        <div class="koef" id="koef-angliena">1.00<small>коэф.</small></div>
         <span class="emoji">🇬🇧</span>
         <h2>Англена</h2>
-        <div class="desc">Владычица туманов</div>
+        <div class="desc">Владыка домашки 📚</div>
       </div>
+    </div>
+
+    <div class="block">
+      <h3>🗳️ Опрос: кто победит?</h3>
+      <div class="poll">
+        <div class="poll-question">Голосуй за победителя битвы!</div>
+        <div class="poll-option voted-masha" data-vote="masha" onclick="vote('masha')">
+          <div class="poll-bar-bg" id="bar-masha"></div>
+          <div class="poll-content">
+            <span class="poll-emoji">👩</span>
+            <span class="poll-name">Маша</span>
+            <span class="poll-votes" id="votes-masha">0</span>
+            <span class="poll-pct" id="pct-masha">0%</span>
+          </div>
+        </div>
+        <div class="poll-option voted-angliena" data-vote="angliena" onclick="vote('angliena')">
+          <div class="poll-bar-bg" id="bar-angliena"></div>
+          <div class="poll-content">
+            <span class="poll-emoji">🇬🇧</span>
+            <span class="poll-name">Англена</span>
+            <span class="poll-votes" id="votes-angliena">0</span>
+            <span class="poll-pct" id="pct-angliena">0%</span>
+          </div>
+        </div>
+        <div class="vote-status" id="vote-status"></div>
+        <button class="reset-btn" onclick="resetPoll()">🔄 Сбросить опрос</button>
+        <div class="poll-results-note">Голоса хранятся в твоём браузере (localStorage)</div>
+      </div>
+    </div>
+
+    <div class="block">
+      <h3>💰 Коэффициенты на победу</h3>
+      <div class="koef-info">
+        <div class="koef-card">
+          <div class="label">Ставка на Машу</div>
+          <div class="value" id="koef-card-masha">1.00</div>
+        </div>
+        <div class="koef-card">
+          <div class="label">Ставка на Англену</div>
+          <div class="value" id="koef-card-angliena">1.00</div>
+        </div>
+      </div>
+      <div class="poll-results-note">Коэффициенты считаются по голосам: чем меньше ставят — тем выше коэф. (как у букмекеров)</div>
     </div>
 
     <div class="keftable">
@@ -188,8 +315,8 @@
         <div class="value">∞</div>
       </div>
       <div class="stat">
-        <div class="label">Кефов съедено</div>
-        <div class="value">1 337</div>
+        <div class="label">Всего голосов</div>
+        <div class="value" id="stat-total">0</div>
       </div>
       <div class="stat">
         <div class="label">Спонсорская поддержка</div>
@@ -202,5 +329,88 @@
       <a href="https://github.com">GitHub Pages</a>
     </div>
   </div>
+
+  <script>
+    const KEY = 'masha-vs-anglena-votes';
+    let votes = { masha: 0, angliena: 0 };
+
+    function loadVotes() {
+      try {
+        const saved = JSON.parse(localStorage.getItem(KEY));
+        if (saved && typeof saved.masha === 'number' && typeof saved.angliena === 'number') {
+          votes = saved;
+        }
+      } catch (e) {}
+    }
+
+    function saveVotes() {
+      localStorage.setItem(KEY, JSON.stringify(votes));
+    }
+
+    function calcCoeffs() {
+      const total = votes.masha + votes.angliena;
+      if (total === 0) return { masha: 1.00, angliena: 1.00 };
+      const margin = 0.85;
+      const mashaShare = votes.masha / total;
+      const anglienaShare = votes.angliena / total;
+      const masha = total === votes.masha ? 1.05 : Math.max(1.05, (margin / mashaShare).toFixed(2));
+      const angliena = total === votes.angliena ? 1.05 : Math.max(1.05, (margin / anglienaShare).toFixed(2));
+      return { masha: Number(masha), angliena: Number(angliena) };
+    }
+
+    function fmt(n) { return n.toFixed(2); }
+
+    function render() {
+      const total = votes.masha + votes.angliena;
+      const pctM = total ? Math.round(votes.masha / total * 100) : 50;
+      const pctA = total ? Math.round(votes.angliena / total * 100) : 50;
+      const coeffs = calcCoeffs();
+
+      document.getElementById('votes-masha').textContent = votes.masha;
+      document.getElementById('votes-angliena').textContent = votes.angliena;
+      document.getElementById('pct-masha').textContent = pctM + '%';
+      document.getElementById('pct-angliena').textContent = pctA + '%';
+      document.getElementById('bar-masha').style.width = pctM + '%';
+      document.getElementById('bar-angliena').style.width = pctA + '%';
+      document.getElementById('stat-total').textContent = total;
+
+      const km = fmt(coeffs.masha);
+      const ka = fmt(coeffs.angliena);
+      document.getElementById('koef-masha').innerHTML = km + '<small>коэф.</small>';
+      document.getElementById('koef-angliena').innerHTML = ka + '<small>коэф.</small>';
+      document.getElementById('koef-card-masha').textContent = km;
+      document.getElementById('koef-card-angliena').textContent = ka;
+
+      const mOption = document.querySelector('.poll-option[data-vote="masha"]');
+      const aOption = document.querySelector('.poll-option[data-vote="angliena"]');
+      mOption.classList.add('voted');
+      aOption.classList.add('voted');
+
+      const status = document.getElementById('vote-status');
+      if (total === 0) {
+        status.textContent = 'Пока никто не проголосовал — будь первым! 🗳️';
+      } else {
+        const leader = votes.masha > votes.angliena ? 'Маша 👩' : votes.angliena > votes.masha ? 'Англена 🇬🇧' : 'Ничья 🤝';
+        status.textContent = 'Лидирует: ' + leader;
+      }
+    }
+
+    function vote(who) {
+      votes[who]++;
+      saveVotes();
+      render();
+    }
+
+    function resetPoll() {
+      if (confirm('Сбросить все голоса?')) {
+        votes = { masha: 0, angliena: 0 };
+        saveVotes();
+        render();
+      }
+    }
+
+    loadVotes();
+    render();
+  </script>
 </body>
 </html>
