@@ -990,8 +990,9 @@
 
   <!-- ════════════ СКРЫТАЯ ФОРМА ДЛЯ ТЕЛЕГРАМА ════════════ -->
   <form id="tg-form" method="POST" target="tg-frame" style="display:none">
-    <input type="hidden" name="chat_id" value="-5063334093">
+    <input type="hidden" name="chat_id" value="-1004301081856">
     <input type="hidden" name="parse_mode" value="HTML">
+    <input type="hidden" name="message_thread_id" value="3">
     <textarea name="text" id="tg-text"></textarea>
   </form>
   <iframe name="tg-frame" style="display:none"></iframe>
@@ -1004,7 +1005,7 @@
     // 4. Найди chat.id — вставь ниже
     // Если не хочешь Telegram — оставь пустым, ставки будут просто сохраняться в браузере
     const TG_BOT_TOKEN = '8505008097:AAHAL6hRBw15taSerao_zirvQ6wPXfBLmNs';
-    const TG_CHAT_ID  = '-5063334093';
+    const TG_CHAT_ID  = '-1004301081856';
 
     let selectedFighter = null;
     let betHistory = [];
