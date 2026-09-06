@@ -213,6 +213,48 @@
     }
     .footer a { color: #ffd93d; text-decoration: none; }
 
+    .analysis-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    .analysis-card {
+      background: rgba(255,255,255,0.05);
+      border-radius: 20px;
+      padding: 25px;
+      text-align: left;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+    .analysis-card.strong { border-color: #ff6b6b; }
+    .analysis-card.weak { border-color: #6bcbff; }
+    .analysis-header {
+      font-size: 1.2rem;
+      font-weight: 700;
+      margin-bottom: 15px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .analysis-card ul {
+      list-style: none;
+      padding: 0;
+    }
+    .analysis-card li {
+      padding: 8px 0;
+      font-size: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .analysis-card li:last-child { border-bottom: none; }
+    .analysis-card li::before {
+      display: inline-block;
+      margin-right: 10px;
+    }
+    .analysis-card.strong li::before { content: '✅'; }
+    .analysis-card.weak li::before { content: '❌'; }
+
+    @media (max-width: 600px) {
+      .analysis-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 600px) {
       header h1 { font-size: 2rem; }
       .vs { font-size: 2rem; }
@@ -321,6 +363,32 @@
       <div class="stat">
         <div class="label">Спонсорская поддержка</div>
         <div class="value">💪 ВИВТ</div>
+      </div>
+    </div>
+
+    <div class="block analysis">
+      <h3>📊 Анализ битвы</h3>
+      <div class="analysis-grid">
+        <div class="analysis-card strong">
+          <div class="analysis-header">✅ Сильные стороны Маши</div>
+          <ul>
+            <li>Действующая староста — опыт управления</li>
+            <li>Владыка бана в телеграмме — контроль над чатом</li>
+            <li>Поддержка кефов — боевой запас</li>
+            <li>Спонсор ВИВТ — финансовая мощь</li>
+            <li>Решает вопросы на месте</li>
+          </ul>
+        </div>
+        <div class="analysis-card weak">
+          <div class="analysis-header">❌ Слабые стороны Англены</div>
+          <ul>
+            <li>Владыка домашки — все её ненавидят</li>
+            <li>Не действующая староста — утрата позиций</li>
+            <li>Нет поддержки кефов</li>
+            <li>Нет спонсора</li>
+            <li>Туманная стратегия</li>
+          </ul>
+        </div>
       </div>
     </div>
 
