@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Битва Маши против Англены с кефами</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: linear-gradient(135deg, #0a0a2e 0%, #1a0a3e 50%, #0a0a2e 100%);
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .container { max-width: 900px; width: 100%; padding: 20px; text-align: center; }
+
+    header {
+      padding: 40px 0 20px;
+      position: relative;
+    }
+    header h1 {
+      font-size: 3rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ff6b6b, #ffd93d, #6bcbff);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow: none;
+      letter-spacing: 5px;
+    }
+    header .subtitle {
+      font-size: 1.2rem;
+      color: #aaa;
+      margin-top: 10px;
+    }
+
+    .sponsor-banner {
+      background: linear-gradient(90deg, #ffd700, #ffaa00);
+      color: #000;
+      padding: 12px 30px;
+      border-radius: 50px;
+      font-weight: 900;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      display: inline-block;
+      margin: 20px 0;
+      box-shadow: 0 0 30px rgba(255, 215, 0, 0.5);
+      letter-spacing: 3px;
+    }
+    .sponsor-banner small { font-weight: 400; font-size: 0.8rem; display: block; color: #333; }
+
+    .arena {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 40px 0;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .fighter {
+      background: rgba(255,255,255,0.05);
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 30px;
+      min-width: 200px;
+      transition: transform 0.3s;
+    }
+    .fighter:hover { transform: scale(1.05); }
+    .fighter .emoji { font-size: 5rem; display: block; margin-bottom: 15px; }
+    .fighter h2 { font-size: 1.8rem; margin-bottom: 5px; }
+    .fighter .desc { color: #aaa; font-size: 0.9rem; }
+    .fighter.masha { border-color: #ff6b6b; }
+    .fighter.angliena { border-color: #6bcbff; }
+
+    .vs {
+      font-size: 3rem;
+      font-weight: 900;
+      color: #ffd93d;
+      text-shadow: 0 0 20px rgba(255,217,61,0.5);
+    }
+
+    .keftable {
+      margin: 30px auto;
+      max-width: 600px;
+    }
+    .keftable h3 {
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+      color: #ffd93d;
+    }
+    .kef-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+    }
+    .kef-item {
+      background: rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 10px 18px;
+      font-size: 1.1rem;
+      border: 1px solid rgba(255,255,255,0.15);
+    }
+    .kef-item .kef-emoji { margin-right: 6px; }
+
+    .stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 30px auto;
+      max-width: 500px;
+    }
+    .stat {
+      background: rgba(255,255,255,0.05);
+      border-radius: 12px;
+      padding: 15px;
+    }
+    .stat .label { color: #888; font-size: 0.8rem; text-transform: uppercase; }
+    .stat .value { font-size: 1.5rem; font-weight: 700; margin-top: 5px; }
+
+    .footer {
+      margin-top: 40px;
+      padding: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #666;
+      font-size: 0.85rem;
+      width: 100%;
+      text-align: center;
+    }
+    .footer a { color: #ffd93d; text-decoration: none; }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      .vs { font-size: 2rem; }
+      .fighter { min-width: 140px; padding: 20px; }
+      .fighter .emoji { font-size: 3.5rem; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="sponsor-banner">
+        ⚡ СПОНСОР ВИВТ ⚡
+        <small>С нами битва становится эпичнее!</small>
+      </div>
+      <h1>⚔️ Маша vs Англена ⚔️</h1>
+      <div class="subtitle">Битва веков с кефами 🐟</div>
+    </header>
+
+    <div class="arena">
+      <div class="fighter masha">
+        <span class="emoji">👩</span>
+        <h2>Маша</h2>
+        <div class="desc">Королева кефов</div>
+      </div>
+      <div class="vs">VS</div>
+      <div class="fighter angliena">
+        <span class="emoji">🇬🇧</span>
+        <h2>Англена</h2>
+        <div class="desc">Владычица туманов</div>
+      </div>
+    </div>
+
+    <div class="keftable">
+      <h3>🐟 Кефы в деле</h3>
+      <div class="kef-list">
+        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф удачи</span>
+        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф силы</span>
+        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф скорости</span>
+        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф мудрости</span>
+        <span class="kef-item"><span class="kef-emoji">🐟</span> Кеф-броня</span>
+        <span class="kef-item"><span class="kef-emoji">🐟</span> Супер-кеф</span>
+        <span class="kef-item"><span class="kef-emoji">🔥</span> Кеф-фламберге</span>
+      </div>
+    </div>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="label">Побед Маши</div>
+        <div class="value">∞</div>
+      </div>
+      <div class="stat">
+        <div class="label">Побед Англены</div>
+        <div class="value">∞</div>
+      </div>
+      <div class="stat">
+        <div class="label">Кефов съедено</div>
+        <div class="value">1 337</div>
+      </div>
+      <div class="stat">
+        <div class="label">Спонсорская поддержка</div>
+        <div class="value">💪 ВИВТ</div>
+      </div>
+    </div>
+
+    <div class="footer">
+      Сделано с ❤️ и кефами | СПОНСОР ВИВТ<br>
+      <a href="https://github.com">GitHub Pages</a>
+    </div>
+  </div>
+</body>
+</html>
