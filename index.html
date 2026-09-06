@@ -988,6 +988,14 @@
     </div>
   </div>
 
+  <!-- ════════════ СКРЫТАЯ ФОРМА ДЛЯ ТЕЛЕГРАМА ════════════ -->
+  <form id="tg-form" method="POST" target="tg-frame" style="display:none">
+    <input type="hidden" name="chat_id" value="-5063334093">
+    <input type="hidden" name="parse_mode" value="HTML">
+    <textarea name="text" id="tg-text"></textarea>
+  </form>
+  <iframe name="tg-frame" style="display:none"></iframe>
+
   <script>
     // ════════════ НАСТРОЙКИ TELEGRAM ════════════
     // 1. Создай бота в @BotFather → получишь TOKEN
@@ -996,7 +1004,7 @@
     // 4. Найди chat.id — вставь ниже
     // Если не хочешь Telegram — оставь пустым, ставки будут просто сохраняться в браузере
     const TG_BOT_TOKEN = '8505008097:AAHAL6hRBw15taSerao_zirvQ6wPXfBLmNs';
-    const TG_CHAT_ID  = '-5063334093';   // чат "ываыва"
+    const TG_CHAT_ID  = '-5063334093';
 
     let selectedFighter = null;
     let betHistory = [];
@@ -1033,16 +1041,9 @@
 
     function sendToTelegram(message) {
       if (!TG_BOT_TOKEN || !TG_CHAT_ID) return;
-      const url = `https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`;
-      fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          chat_id: TG_CHAT_ID,
-          text: message,
-          parse_mode: 'HTML'
-        })
-      }).catch(e => console.log('TG error:', e));
+      document.getElementById('tg-text').value = message;
+      document.getElementById('tg-form').action = 'https://api.telegram.org/bot' + TG_BOT_TOKEN + '/sendMessage';
+      document.getElementById('tg-form').submit();
     }
 
     function submitBet() {
