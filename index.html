@@ -1047,6 +1047,28 @@
       document.getElementById('tg-form').submit();
     }
 
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+    function buildBetTable() {
+      if (!betHistory.length) return '💰 Пока нет ни одной ставки';
+      const mashaBets = betHistory.filter(b => b.fighter === 'masha');
+      const anglienaBets = betHistory.filter(b => b.fighter === 'angliena');
+      const total = betHistory.length;
+      const pctM = Math.round(mashaBets.length / total * 100);
+      const pctA = 100 - pctM;
+
+      let lines = [];
+      lines.push('👩 <b>Маша</b> — ' + mashaBets.length + ' чел. (' + pctM + '%)');
+      mashaBets.forEach((b, i) => lines.push((i + 1) + '. ' + esc(b.nick) + ' — ' + b.amount.toLocaleString() + '₽ ×' + b.koef));
+      lines.push('');
+      lines.push('🇬🇧 <b>Англелина</b> — ' + anglienaBets.length + ' чел. (' + pctA + '%)');
+      anglienaBets.forEach((b, i) => lines.push((i + 1) + '. ' + esc(b.nick) + ' — ' + b.amount.toLocaleString() + '₽ ×' + b.koef));
+      lines.push('');
+      const bank = betHistory.reduce((s, b) => s + b.amount, 0);
+      lines.push('💰 Всего: ' + total + ' ставок · Банк: ' + bank.toLocaleString() + '₽');
+      return lines.join('\n');
+    }
+
     function submitBet() {
       const nick = document.getElementById('bet-nick').value.trim();
       const amount = parseInt(document.getElementById('bet-amount').value);
@@ -1054,6 +1076,12 @@
       if (!nick) { alert('Введи свой никнейм!'); return; }
       if (!selectedFighter) { alert('Выбери, на кого ставишь!'); return; }
       if (!amount || amount < 1) { alert('Введи сумму ставки!'); return; }
+
+      const existing = betHistory.find(b => b.nick.toLowerCase() === nick.toLowerCase());
+      if (existing) {
+        alert('Игрок «' + nick + '» уже сделал ставку!');
+        return;
+      }
 
       const koef = selectedFighter === 'masha' ? 2.90 : 1.52;
       const name = selectedFighter === 'masha' ? '👩 Маша' : '🇬🇧 Англелина';
@@ -1069,9 +1097,6 @@
       betHistory.push(bet);
       saveHistory();
 
-      const dt = new Date().toLocaleString('ru-RU');
-
-      // Показываем успех
       const box = document.getElementById('success-box');
       box.style.display = 'block';
       box.innerHTML = `
@@ -1086,19 +1111,22 @@
       document.getElementById('submit-btn').disabled = true;
       document.getElementById('submit-btn').innerHTML = '✅ Ставка принята<span class="btn-status"></span>';
 
-      // Отправляем в Telegram
+      const dt = new Date().toLocaleString('ru-RU');
       const tgMsg = `
 🔥 <b>НОВАЯ СТАВКА!</b> 🔥
 
-👤 <b>${nick}</b>
+👤 <b>${esc(nick)}</b>
 🥊 Ставит на: ${name} (${koef})
 💰 Сумма: ${amount.toLocaleString()} ₽
 📊 Потенциал: ${(amount * koef).toLocaleString()} ₽
 🕐 ${dt}
+
+━━━━━━━━━━━━
+📊 <b>ТАБЛИЦА СТАВОК</b>
+${buildBetTable()}
       `.trim();
 
       sendToTelegram(tgMsg);
-
       setTimeout(() => closeModal(), 2500);
     }
 
